@@ -1,4 +1,4 @@
-# flutter_application_1 · Flutter 学习 Demo
+# flutterDemo · Flutter 学习 Demo
 
 一个用来入门 Flutter 的练习项目，从 iOS / Objective-C 开发背景切换过来的视角编写，
 源码里带有大量中文注释，并不断用 iOS 概念做类比（UITabBarController、UITableView、
