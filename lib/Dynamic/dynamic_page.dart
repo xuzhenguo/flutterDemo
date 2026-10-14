@@ -60,8 +60,7 @@ class DynamicPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      //moment.name
-                      "1341234123412341o23u41i23u4oi123uoi4123oi4u12o3u412io34u1oi234uo1i23u4o1i234uo1i234u1o2i34ui13o24",
+                      moment.name,
                       style: const TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w600,
