@@ -5,7 +5,7 @@
 
 import 'package:flutter_test/flutter_test.dart';
 
-import 'package:flutter_application_1/main.dart';
+import 'package:flutter_demo/main.dart';
 
 void main() {
   testWidgets('底部三 Tab 正常显示并可切换', (WidgetTester tester) async {

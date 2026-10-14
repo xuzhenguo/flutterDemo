@@ -1,4 +1,4 @@
-name: flutter_application_1
+name: flutter_demo
 description: "Flutter 入门学习 Demo：底部三 Tab（首页/动态/个人中心），含首页三级页面导航，源码带详细中文注释。"
 # The following line prevents the package from being accidentally published to
 # pub.dev using `flutter pub publish`. This is preferred for private packages.
