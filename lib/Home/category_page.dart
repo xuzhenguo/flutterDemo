@@ -13,7 +13,6 @@ class CategoryPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(category.title), // 导航栏显示分类名
       ),
       // ListView.separated：带「分隔线」的列表，相当于 iOS 的 UITableView。

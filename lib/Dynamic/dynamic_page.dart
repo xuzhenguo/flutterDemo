@@ -11,28 +11,55 @@ class DynamicPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('动态'),
       ),
       // 列表:每条动态之间用一条浅灰分隔线隔开。
       body: ListView.separated(
         itemCount: momentData.length,
         separatorBuilder: (context, index) => const Divider(height: 1),
-        // 每一行调用 _buildMomentItem 构建,代码拆出去,build 方法更清爽。
-        itemBuilder: (context, index) => _buildMomentItem(momentData[index]),
+        // 每一行用 _MomentItem 构建。它是个 StatefulWidget，
+        // 这样「点赞」才能记住自己是否被点过(局部状态)。
+        itemBuilder: (context, index) => _MomentItem(moment: momentData[index]),
       ),
     );
   }
+}
 
-  /// 构建单条动态。这是本页布局练习的核心。
-  ///
-  /// 整体结构(从外到内一层层套盒子):
-  ///   Padding(四周留白)
-  ///     └ Column(整条动态竖向排:头部 / 正文 / 底部操作栏)
-  ///          ├ Row     —— 头部:头像 + (昵称 / 时间)
-  ///          ├ Text    —— 正文
-  ///          └ Row     —— 底部:点赞 + 评论
-  Widget _buildMomentItem(Moment moment) {
+/// 单条动态。做成 StatefulWidget 是为了练习「局部状态」：
+/// 点一下爱心能在「已赞/未赞」之间切换，并实时更新数量和颜色。
+///
+/// 整体结构(从外到内一层层套盒子):
+///   Padding(四周留白)
+///     └ Column(整条动态竖向排:头部 / 正文 / 底部操作栏)
+///          ├ Row     —— 头部:头像 + (昵称 / 时间)
+///          ├ Text    —— 正文
+///          └ Row     —— 底部:点赞 + 评论
+class _MomentItem extends StatefulWidget {
+  final Moment moment;
+
+  const _MomentItem({required this.moment});
+
+  @override
+  State<_MomentItem> createState() => _MomentItemState();
+}
+
+class _MomentItemState extends State<_MomentItem> {
+  // 当前这条动态「我有没有点过赞」。初始都未点。
+  bool _liked = false;
+
+  // 显示的点赞数:在原始数据基础上，点过就 +1。
+  // (真实项目里会把状态提交到后端;这里只做本地演示。)
+  int get _likeCount => widget.moment.likes + (_liked ? 1 : 0);
+
+  // 点爱心:切换状态并用 setState 通知框架重建这一行。
+  void _toggleLike() {
+    setState(() => _liked = !_liked);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    // widget.moment：State 里通过 widget 访问外部传进来的数据。
+    final moment = widget.moment;
     return Padding(
       // 四周留白:左右 16,上下 12。EdgeInsets.symmetric 分别设水平/垂直方向。
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
@@ -92,13 +119,36 @@ class DynamicPage extends StatelessWidget {
           // ===== 底部操作栏:点赞 + 评论,横向排 → 用 Row =====
           Row(
             children: [
-              // 点赞:一个爱心图标 + 数字,用小 Row 组合。
-              Icon(Icons.favorite_border, size: 18, color: Colors.grey.shade600),
-              const SizedBox(width: 4),
-              Text('${moment.likes}', style: TextStyle(color: Colors.grey.shade600)),
+              // 点赞:整块(图标+数字)用 InkWell 包起来做成可点区域。
+              // 点一下 → _toggleLike → setState → 这一行重建 → 图标和数字跟着变。
+              InkWell(
+                onTap: _toggleLike,
+                borderRadius: BorderRadius.circular(4),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min, // 只占内容宽度，别撑满
+                    children: [
+                      // 已赞:实心红心;未赞:空心灰心。
+                      Icon(
+                        _liked ? Icons.favorite : Icons.favorite_border,
+                        size: 18,
+                        color: _liked ? Colors.red : Colors.grey.shade600,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        '$_likeCount',
+                        style: TextStyle(
+                          color: _liked ? Colors.red : Colors.grey.shade600,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
 
-              // 两组之间留 20 的间距。
-              const SizedBox(width: 20),
+              // 两组之间留 16 的间距。
+              const SizedBox(width: 16),
 
               // 评论:气泡图标 + 数字。
               Icon(Icons.chat_bubble_outline, size: 18, color: Colors.grey.shade600),

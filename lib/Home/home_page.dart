@@ -11,7 +11,6 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: const Text('Flutter 知识点'),
       ),
       // ListView.separated：带「分隔线」的列表(UITableView)。每两行间自动插一条分隔。

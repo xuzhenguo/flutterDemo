@@ -14,7 +14,6 @@ class PointDetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         title: Text(point.title), // 用传入数据的标题当导航栏标题
       ),
       // SingleChildScrollView：让内容在超出屏幕时可以上下滚动，
