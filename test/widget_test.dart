@@ -20,14 +20,14 @@ void main() {
     expect(find.text('动态'), findsOneWidget);
     expect(find.text('个人中心'), findsOneWidget);
 
-    // 切换前，「个人中心」页的占位文字还在屏幕外（Offstage），找不到。
-    expect(find.text('这里是「个人中心」页'), findsNothing);
+    // 切换前，「个人中心」页的内容还在屏幕外（Offstage），找不到。
+    expect(find.text('Flutter 学习者'), findsNothing);
 
     // 点击「个人中心」Tab 并等待动画结束。
     await tester.tap(find.text('个人中心'));
     await tester.pumpAndSettle();
 
-    // 切换后应出现「个人中心」页的占位文字。
-    expect(find.text('这里是「个人中心」页'), findsOneWidget);
+    // 切换后应出现「个人中心」页顶部卡片里的昵称。
+    expect(find.text('Flutter 学习者'), findsOneWidget);
   });
 }
