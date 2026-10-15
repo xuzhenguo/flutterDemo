@@ -60,6 +60,8 @@ class ProfilePage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       // Row：头像在左、文字在右，横向排列。
       child: Row(
+        // 交叉轴(垂直方向)对齐方式。center=垂直居中(其实是默认值，写出来更直观)。
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           // 圆形头像：这里先用一个图标占位，真实项目里换成网络/本地图片。
           const CircleAvatar(
